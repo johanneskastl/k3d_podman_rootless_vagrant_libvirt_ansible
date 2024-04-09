@@ -1,0 +1,11 @@
+---
+- name: 'Install kubectl'
+  hosts: 'all'
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: 'johanneskastl.install_one_or_more_packages'
+      packages_to_be_installed:
+        # kuberlr avoids version problems with outdated kubectl packages
+        - 'kuberlr'
