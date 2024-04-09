@@ -22,5 +22,8 @@
 - name: 'Run playbook-all_nodes-install_kubectl.yml'
   ansible.builtin.import_playbook: playbook-all_nodes-install_kubectl.yml
 
+- name: 'Run playbook-all_nodes-install_and_start_podman_rootless.yml'
+  ansible.builtin.import_playbook: playbook-all_nodes-install_and_start_podman_rootless.yml
+
 - name: 'Run playbook-all_nodes-install_k3d.yml'
   ansible.builtin.import_playbook: playbook-all_nodes-install_k3d.yml
