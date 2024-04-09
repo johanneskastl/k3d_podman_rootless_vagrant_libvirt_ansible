@@ -12,6 +12,26 @@
 
   post_tasks:
 
+    - name: 'Create directory /home/vagrant/.config/containers/'
+      ansible.builtin.file:
+        path: '/home/vagrant/.config/containers/'
+        state: 'directory'
+        owner: 'vagrant'
+        group: 'vagrant'
+        mode: '0755'
+
+    # https://github.com/containers/podman/issues/18987
+    - name: 'Fix wrong logging driver on Leap'
+      ansible.builtin.copy:
+        dest: '/home/vagrant/.config/containers/containers.conf'
+        content: |
+          [containers]
+          log_driver="k8s-file"
+          events_logger="file"
+        owner: 'vagrant'
+        group: 'vagrant'
+        mode: '0644'
+
     - name: 'Add environment variable to /home/vagrant/.profile'
       ansible.builtin.lineinfile:
         path: '/home/vagrant/.profile'
