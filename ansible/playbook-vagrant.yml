@@ -19,5 +19,8 @@
 - name: 'Run playbook-all_nodes-add_Branch_devel_kubic_repo.yml'
   ansible.builtin.import_playbook: playbook-all_nodes-add_Branch_devel_kubic_repo.yml
 
+- name: 'Run playbook-all_nodes-install_kubectl.yml'
+  ansible.builtin.import_playbook: playbook-all_nodes-install_kubectl.yml
+
 - name: 'Run playbook-all_nodes-install_k3d.yml'
   ansible.builtin.import_playbook: playbook-all_nodes-install_k3d.yml
