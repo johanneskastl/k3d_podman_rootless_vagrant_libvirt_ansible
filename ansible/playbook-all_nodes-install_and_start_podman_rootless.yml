@@ -1,0 +1,41 @@
+---
+- name: 'Install podman and active the rootless podman socket'
+  hosts: 'all'
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: 'johanneskastl.install_one_or_more_packages'
+      packages_to_be_installed:
+        - 'podman'
+        - 'podman-docker'
+
+  post_tasks:
+
+    - name: 'Add environment variable to /home/vagrant/.profile'
+      ansible.builtin.lineinfile:
+        path: '/home/vagrant/.profile'
+        regexp: '^export DOCKER_HOST'
+        line: "export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock"
+        create: true
+        owner: 'vagrant'
+        group: 'vagrant'
+        mode: '0644'
+
+    - name: 'Add environment variable to /home/vagrant/.profile'
+      ansible.builtin.lineinfile:
+        path: '/home/vagrant/.profile'
+        regexp: '^export DOCKER_SOCK'
+        line: "export DOCKER_SOCK=/run/user/$UID/podman/podman.sock"
+        create: true
+        owner: 'vagrant'
+        group: 'vagrant'
+        mode: '0644'
+
+    - name: 'Start and enable the podman.socket user service'
+      ansible.builtin.systemd:
+        name: 'podman.socket'
+        state: 'started'
+        enabled: 'true'
+        scope: 'user'
+      become: false
